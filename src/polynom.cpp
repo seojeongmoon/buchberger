@@ -216,14 +216,15 @@ void Polynom::mult(uint16_t var)
     delete tmpNoX;
 }
 
+//Monomial 
 void Polynom::mult(const Monom& m)
 {
-    if (isZero())
+    if (isZero())//if !head_;
     {
         return;
     }
 
-    for (uint16_t i = 0; i < m.dimIndepend(); ++i)
+    for (uint16_t i = 0; i < m.dimIndepend(); ++i) //for every variable
     {
         if (m.deg(i))
         {
@@ -324,8 +325,10 @@ std::ostream& operator<<(std::ostream& out, const Polynom& a)
     return out;
 }
 
+// add a monom of stream in to a polynom (element separated by "+" and "-")
 void Polynom::additive(std::istream& in)
 {
+    //check if many variables are multiplied
     multiplicative(in);
 
     int op = (in >> std::ws).peek();
@@ -339,6 +342,7 @@ void Polynom::additive(std::istream& in)
     }
 }
 
+//check if an additive is a multiplicative, then ...
 void Polynom::multiplicative(std::istream& in)
 {
     unary(in);
@@ -354,6 +358,7 @@ void Polynom::multiplicative(std::istream& in)
     }
 }
 
+//check if a
 void Polynom::unary(std::istream& in)
 {
     int ch = (in >> std::ws).peek();
@@ -377,6 +382,7 @@ void Polynom::unary(std::istream& in)
     }
 }
 
+//if the 
 void Polynom::power(std::istream& in)
 {
     bracket(in);
@@ -395,6 +401,7 @@ void Polynom::power(std::istream& in)
     }
 }
 
+//check if there is a bracket. if there is, 
 void Polynom::bracket(std::istream& in)
 {
     int op = (in >> std::ws).peek();
@@ -411,8 +418,8 @@ void Polynom::bracket(std::istream& in)
     {
         setOne();
         Monom m;
-        in >> m;
-        if (!in.fail())
+        in >> m; // Get a monom *Yeogi
+        if (!in.fail()) //if succeed
         {
             mult(m);
         }
@@ -427,6 +434,7 @@ void Polynom::bracket(std::istream& in)
     }
 }
 
+//add one element of stream into Polynom a
 std::istream& operator>>(std::istream& in, Polynom& a)
 {
     a.additive(in);

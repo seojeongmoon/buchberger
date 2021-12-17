@@ -76,18 +76,19 @@ void Monom::init()
     degrees_[252] = 6; degrees_[253] = 7; degrees_[254] = 7; degrees_[255] = 8;
 }
 
+//Get an element of variables connected to each other with "*""
 std::istream& operator>>(std::istream& in, Monom& a)
 {
     int var = a.independ->read(in);
 
-    if (var < 0)
+    if (var < 0) //if variable has NOT been found
     {
         in.clear();
         in.setstate(std::ios::failbit);
     }
-    else
+    else //if variable has been found
     {
-        a.setZero();
+        a.setZero();// set totalDegree_ = 0 and exponent_  as zero
         int deg;
         do
         {
@@ -103,18 +104,19 @@ std::istream& operator>>(std::istream& in, Monom& a)
                     IMESSAGE("expected 'degree >= 0'");
                 }
             }
+            //adjust exponent_ and totalDegree_
             a.prolong(static_cast<uint16_t>(var), static_cast<uint16_t>(deg));
 
             posbeg = in.tellg();
-            if (in.peek() != '*')
+            if (in.peek() != '*') //end of the additive(element separeted by "+" and "-") assume there is + and - next
             {
-                var = -1;
+                var = -1; 
             }
-            else
+            else //if it is multiplied with another variable, get that next variable as well.
             {
                 in.get();
                 var = a.independ->read(in);
-                if (var < 0)
+                if (var < 0)// if variable is not found, then go back to the end of last variable
                 {
                     in.clear();
                     in.seekg(posbeg);

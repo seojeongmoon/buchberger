@@ -52,6 +52,7 @@ void Variables::add(const char* var)
     list_.push_back(name);
 }
 
+//if there exists the same word as var in list_, return larger than 1. If not, return -1
 int Variables::find(const char* var) const
 {
     int r = 0;
@@ -70,6 +71,7 @@ int Variables::find(const char* var) const
     return r;
 }
 
+//read if the first element of in contains the variable in the list_
 int Variables::read(std::istream& in) const
 {
     std::streampos posbeg = in.tellg(), posend;
@@ -79,24 +81,28 @@ int Variables::read(std::istream& in) const
     ConstIterator i = list_.begin();
     while (i != list_.end())
     {
-        in.seekg(posbeg);
-        lenCurrent = readVariable(in, *i);
+        in.seekg(posbeg); //read from the beginning
+        lenCurrent = readVariable(in, *i); //check if i is the first element of in stream
         if (lenCurrent > 0)
         {
-            var = varCurrent;
-            len = lenCurrent;
-            posend = in.tellg();
+            var = varCurrent; // the index of the matching variable in the list_
+            len = lenCurrent; // the length of the matching variable
+            posend = in.tellg(); // position of the end of the matching variable
             break;
         }
         ++varCurrent;
         ++i;
     }
 
+    // you need this in case the in stream contains u12, and there are variables u1 and u12. 
+    // the first element of in stream can satisfy "readVariable(in, u1)" but is not right
+    // this is on the premise that there won't be u121; 
+    // the variable won't have the same first two digits and a varying third digit
     while (i != list_.end())
     {
-        in.seekg(posbeg);
-        lenCurrent = readVariable(in, *i);
-        if (lenCurrent > len)
+        in.seekg(posbeg); //read from the beginning
+        lenCurrent = readVariable(in, *i); //check if i is the first element of in stream
+        if (lenCurrent > len) //u12 len is bigger than u1 
         {
             var = varCurrent;
             len = lenCurrent;
@@ -106,11 +112,11 @@ int Variables::read(std::istream& in) const
         ++i;
     }
 
-    if (var >= 0)
+    if (var >= 0) //if found, set read point where the variable ended
     {
         in.seekg(posend);
     }
-    else
+    else //if not found, set read point where it was
     {
         in.seekg(posbeg);
     }

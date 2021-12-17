@@ -97,7 +97,7 @@ inline void Monom::set(const Monom& a)
 
 inline uint16_t Monom::deg(uint16_t var) const
 {
-    return (exponent_ & one_[var]) ? 1 : 0;
+    return (exponent_ & one_[var]) ? 1 : 0; 
 }
 
 inline uint16_t Monom::degree() const
