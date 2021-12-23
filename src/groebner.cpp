@@ -4,7 +4,6 @@
 #include <iostream>
 #include <memory>
 
-
 namespace
 {
     int compareRefToPair(const Pair* a, const Pair* b)

@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
-
+#include <bitset>
 
 class Monom
 {
@@ -79,6 +79,15 @@ public:
         return !(a == b);
     };
 
+    void setTotalDegree(uint16_t x) { totalDegree_ = x; };
+    void setDimIndepend(uint16_t x) { dimIndepend_ = x; };
+
+    void prettyPrintMonom()
+    {
+        std::cout << "  total degree: " << degree() << std::endl;
+        std::cout << "      exponent: " << std::bitset<8>(rank()) << std::endl;
+        std::cout << "dimIndependent: " << dimIndepend() << std::endl;
+    }
 private:
     uint16_t totalDegree_;
     uint64_t exponent_;

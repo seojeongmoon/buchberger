@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <iostream>
 
-
 class Polynom
 {
 private:
@@ -14,7 +13,7 @@ private:
     class ConstIterator
     {
     public:
-        ConstIterator(const Monom* constIt)
+        ConstIterator(const Monom *constIt)
             : constIt_(constIt)
         {
         }
@@ -24,12 +23,12 @@ private:
             return constIt_;
         }
 
-        const Monom& operator*() const
+        const Monom &operator*() const
         {
             return *constIt_;
         }
 
-        const Monom* operator->() const
+        const Monom *operator->() const
         {
             return constIt_;
         }
@@ -42,13 +41,13 @@ private:
     private:
         friend class Polynom;
 
-        const Monom* constIt_ = nullptr;
+        const Monom *constIt_ = nullptr;
     };
 
     class Iterator
     {
     public:
-        Iterator(Monom*& it)
+        Iterator(Monom *&it)
             : it_(&it)
         {
         }
@@ -58,12 +57,12 @@ private:
             return *it_;
         }
 
-        Monom& operator*() const
+        Monom &operator*() const
         {
             return **it_;
         }
 
-        Monom* operator->() const
+        Monom *operator->() const
         {
             return *it_;
         }
@@ -75,14 +74,14 @@ private:
 
         void insert(const Monom &m)
         {
-            Monom* tmp = new Monom(m);
+            Monom *tmp = new Monom(m);
             tmp->next = *it_;
             *it_ = tmp;
         }
 
         void insertNoCopy(Iterator another)
         {
-            Monom* tmp = *another.it_;
+            Monom *tmp = *another.it_;
             *another.it_ = (*another.it_)->next;
             tmp->next = *it_;
             *it_ = tmp;
@@ -90,7 +89,7 @@ private:
 
         void del()
         {
-            Monom* tmp = *it_;
+            Monom *tmp = *it_;
             *it_ = (*it_)->next;
             delete tmp;
         }
@@ -113,14 +112,13 @@ private:
     private:
         friend class Polynom;
 
-        Monom** it_ = nullptr;
+        Monom **it_ = nullptr;
     };
-
 
 public:
     Polynom() = default;
-    Polynom(const Polynom& a);
-    Polynom(const Polynom& a, const Monom& m);
+    Polynom(const Polynom &a);
+    Polynom(const Polynom &a, const Monom &m);
 
     ~Polynom()
     {
@@ -128,53 +126,55 @@ public:
     }
 
     void setOne();
-    void set(const Polynom& a);
-    void operator=(const Polynom& a)
+    void set(const Polynom &a);
+    void operator=(const Polynom &a)
     {
         set(a);
     }
 
-    void swap(Polynom& a);
+    void swap(Polynom &a);
     bool isZero() const;
 
-    const Monom& lm() const;
+    const Monom &lm() const;
     void ridOfLm();
 
-    void add(const Monom& m);
-    void add(const Polynom& a);
-    void addNoCopy(Polynom& a);
+    void add(const Monom &m);
+    void add(const Polynom &a);
+    void addNoCopy(Polynom &a);
 
     void mult(uint16_t var);
-    void mult(const Monom& m);
-    void mult(const Polynom& a);
+    void mult(const Monom &m);
+    void mult(const Polynom &a);
 
     void pow(uint16_t deg);
-    void headReduction(const Polynom& a);
+    void headReduction(const Polynom &a);
 
-    friend std::ostream& operator<<(std::ostream& out, const Polynom& a);
-    friend std::istream& operator>>(std::istream& in, Polynom& a);
-    friend bool operator==(const Polynom& a, const Polynom& b);
-    friend bool operator!=(const Polynom& a, const Polynom& b)
+    friend std::ostream &operator<<(std::ostream &out, const Polynom &a);
+    friend std::istream &operator>>(std::istream &in, Polynom &a);
+    friend bool operator==(const Polynom &a, const Polynom &b);
+    friend bool operator!=(const Polynom &a, const Polynom &b)
     {
         return !(a == b);
     }
+
+    void prettyPrint();
 
 private:
     ConstIterator begin() const;
     Iterator begin();
 
-    void additive(std::istream& in);
-    void multiplicative(std::istream& in);
-    void unary(std::istream& in);
-    void power(std::istream& in);
-    void bracket(std::istream& in);
+    void additive(std::istream &in);
+    void multiplicative(std::istream &in);
+    void unary(std::istream &in);
+    void power(std::istream &in);
+    void bracket(std::istream &in);
 
 private:
-    Monom* head_ = nullptr;
+    Monom *head_ = nullptr;
     size_t len_ = 0;
 };
 
-inline const Monom& Polynom::lm() const
+inline const Monom &Polynom::lm() const
 {
     return *head_;
 }

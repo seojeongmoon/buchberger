@@ -461,3 +461,18 @@ bool operator==(const Polynom& a, const Polynom& b)
 
     return !ia && !ib;
 }
+
+void Polynom::prettyPrint()
+{
+    Iterator i(head_);
+
+    while (i)
+    {
+        std::cout << "Pretty Print Monom " << i << ":" << std::endl;
+
+        i->prettyPrintMonom();
+        std::cout << "\n"
+                  << std::endl;
+        ++i;
+    }
+}
