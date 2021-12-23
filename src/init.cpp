@@ -71,6 +71,12 @@ void init(const char *filename)
     std::vector<Polynom *> pl;
     readPolynoms(fin, pl);
 
+    for (unsigned int i = 0; i < pl.size(); i++)
+    {
+        std::cout << "***Polynom Input Index: " << i << " ***" << std::endl;
+        pl[i]->prettyPrint();
+    }
+
     std::vector<Polynom *> answer;
     readPolynoms(fin, answer);
 
