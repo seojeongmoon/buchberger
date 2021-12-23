@@ -50,7 +50,18 @@ public:
 
         for (unsigned int i = 0; i < basis_.size(); i++)
         {
+            std::cout << "*****Polynom Index : " << i << " *****" << std::endl;
             basis_[i]->prettyPrint();
+        }
+    }
+
+    void prettyprint_operator()
+    {
+        std::cout << "******Groebner******" << std::endl;
+        for (unsigned int i = 0; i < basis_.size(); i++)
+        {
+            std::cout << "*Polynom Index : " << i << " *" << std::endl;
+            std::cout<<*basis_[i]<< std::endl;
         }
     }
 

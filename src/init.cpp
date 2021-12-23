@@ -9,10 +9,9 @@
 #include <iostream>
 #include <sstream>
 
-
 namespace
 {
-    void readVariables(std::ifstream& fin)
+    void readVariables(std::ifstream &fin)
     {
         char c = '0';
         std::string tmpString;
@@ -32,7 +31,7 @@ namespace
         }
     }
 
-    void readPolynoms(std::ifstream& fin, std::vector<Polynom*>& polynoms)
+    void readPolynoms(std::ifstream &fin, std::vector<Polynom *> &polynoms)
     {
         std::stringstream tmpStream;
         char c = '0';
@@ -61,7 +60,7 @@ namespace
     }
 }
 
-void init(const char* filename)
+void init(const char *filename)
 {
     std::ifstream fin(filename);
     Timer timer;
@@ -69,14 +68,18 @@ void init(const char* filename)
     readVariables(fin);
     Monom::init();
 
-    std::vector<Polynom*> pl;
+    std::vector<Polynom *> pl;
     readPolynoms(fin, pl);
 
-    std::vector<Polynom*> answer;
+    std::vector<Polynom *> answer;
     readPolynoms(fin, answer);
 
     timer.start();
     GroebnerBasis bg(pl);
+    std::cout << "pretty print" << std::endl;
+    bg.prettyprint();
+    std::cout << "pretty print operator" << std::endl;
+    bg.prettyprint_operator();
     timer.stop();
     std::cout << timer << std::endl;
 

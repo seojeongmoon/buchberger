@@ -423,7 +423,7 @@ void Polynom::bracket(std::istream& in)
         {
             mult(m);
         }
-        else
+        else //this means there is '1' or error
         {
             in.clear();
             if (in.get() != '1')
